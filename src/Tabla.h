@@ -4,7 +4,7 @@
 #include "../src/modulos_basicos/linear_set.h"
 #include "Tipos.h"
 #include "Registro.h"
-#include "string_map.h"
+#include "../src/modulos_basicos/string_map.h"
 
 class Tabla {
 private:
