@@ -15,9 +15,11 @@ private:
     linear_set<Valor> _claves;
     string_map<Registro> _data;
 
+
+
 public:
 
-
+//dado una clave te devuelve un registro
 
 };
 

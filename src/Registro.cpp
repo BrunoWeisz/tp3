@@ -1,14 +1,14 @@
 #include "Registro.h"
 
 Registro::Registro() {
-    COMPLETAR(Registro);
+    //COMPLETAR(Registro);
 }
 
 set<NombreCampo> Registro::campos() const {
-    COMPLETAR(campos);
+    //COMPLETAR(campos);
 }
 
 Valor& Registro::operator[](const NombreCampo& campo) {
-    COMPLETAR(operator[]);
+    //COMPLETAR(operator[]);
 }
 
