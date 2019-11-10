@@ -15,11 +15,22 @@ private:
     linear_set<Valor> _claves;
     string_map<Registro> _data;
 
-
-
 public:
 
-//dado una clave te devuelve un registro
+    Tabla(linear_set<NombreCampo> &campos, NombreCampo &clave); //O(1)
+
+    linear_set<NombreCampo> &dar_campos();//const? //O(|c|)
+
+    Valor &clave();//O(|c|)
+
+    linear_set<Registro> &registros();// Const? //O(1)
+
+    void insertar(Registro &r); //O(n*(|c| + |v|))
+
+    void borrar(Valor v); //O(|v|) o bien O(n*(|v| + |c|))
+
+    Registro &operator[](const Valor &clave); //O(|v|)
+
 
 };
 
