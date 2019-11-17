@@ -24,7 +24,7 @@ else()
 endif()
 
 #add_executable(main ${SOURCE_FILES})
-add_executable(correrTests ${SOURCE_FILES} ${TEST_SOURCES} src/Tabla.cpp src/Tabla.h)
+add_executable(correrTests ${SOURCE_FILES} ${TEST_SOURCES} src/Tabla.cpp src/Tabla.h src/Base_de_Datos.cpp src/Base_de_Datos.h)
 add_executable(correrTests-Wall ${SOURCE_FILES} ${TEST_SOURCES})
 
 # Necesitamos asociar los archivos del framework de testing
