@@ -24,6 +24,8 @@ public:
 linear_set<Registro> consultar(Consulta &c);
 void selectDeFrom(Consulta &c, linear_set<Registro> &aDevolver);
 void joinConClaves(Consulta &c, linear_set<Registro> &aDevolver);
+void interFroms(Consulta &c, linear_set<Registro> &aDevolver);
+void interSelects(Consulta &c, linear_set<Registro> &aDevolver);
 void select(Consulta &c, linear_set<Registro> &aDevolver);
 
 };

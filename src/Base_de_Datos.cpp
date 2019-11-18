@@ -72,6 +72,38 @@ void Base_de_Datos::joinConClaves(Consulta &c, linear_set<Registro> &aDevolver) 
     }
 }
 
+void Base_de_Datos::interFroms(Consulta &c, linear_set<Registro> &aDevolver) {
+    Tabla t1=tablas[c.subconsulta1().nombre_tabla()];
+    Tabla t2=tablas[c.subconsulta2().nombre_tabla()];
+    Tabla* tMenos; //O(1)
+    Tabla* tMas; //O(1)
+    if (t1.registros().size() <= t2.registros().size()) {//O(1)
+        tMenos=&t1; //O(1)
+        tMas=&t2; //O(1)
+    } else {
+        tMenos=&t2; //O(1)
+        tMas=&t1; //O(1)
+    }
+    linear_set<Valor>::iterator it = tMenos->valores().begin(); //O(1)?
+
+    while(it!=tMenos->valores().end()){
+        Valor v1= *it;
+        if (tMas->esta(v1)) {//Osea comparten la misma clave O(|v|)
+            aDevolver.fast_insert(tMenos->operator[](v1));
+        }
+    }
+
+
+}
+
+
+void Base_de_Datos::interSelects(Consulta &c, linear_set<Registro> &aDevolver) {
+    Tabla t= tablas[c.subconsulta1().subconsulta1().nombre_tabla()];
+
+}
+
+
+
 //Como se escribia para devolver por referencia?
 linear_set<Registro> Base_de_Datos::consultar(Consulta &c) {
     linear_set<Registro> aDevolver;
@@ -82,6 +114,15 @@ linear_set<Registro> Base_de_Datos::consultar(Consulta &c) {
                c.subconsulta1().subconsulta1().tipo_consulta() == FROM &&
                c.subconsulta1().subconsulta2().tipo_consulta() == FROM) {
         joinConClaves(c, aDevolver);
+    }else if(c.tipo_consulta()==INTER &&c.subconsulta1().tipo_consulta()==FROM && c.subconsulta2().tipo_consulta()==FROM
+    && tablas[c.subconsulta1().nombre_tabla()].dar_campos()==tablas[c.subconsulta2().nombre_tabla()].dar_campos()// tienen los mismos campos
+    && tablas[c.subconsulta1().nombre_tabla()].clave()==tablas[c.subconsulta1().nombre_tabla()].clave()// tienen la misma clave
+    ){
+        interFroms(c,aDevolver);
+    }else if(c.tipo_consulta()==INTER && c.subconsulta1().tipo_consulta()==SELECT && c.subconsulta2().tipo_consulta()==SELECT
+    && c.subconsulta1().subconsulta1().tipo_consulta()==FROM && c.subconsulta2().subconsulta1().tipo_consulta()==FROM
+    && c.subconsulta1().subconsulta1().nombre_tabla()==c.subconsulta2().subconsulta1().nombre_tabla()){
+
     } else if (c.tipo_consulta() == FROM) {
         aDevolver = tablas.at(c.nombre_tabla()).registros();
     } else if (c.tipo_consulta() == SELECT) {
