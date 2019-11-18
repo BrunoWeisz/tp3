@@ -51,6 +51,34 @@ void Base_de_Datos::select(Consulta &c, linear_set<Registro> &aDevolver) {
 void Base_de_Datos::joinConClaves(Consulta &c, linear_set<Registro> &aDevolver) {
     Tabla t1 = tablas.at(c.subconsulta1().subconsulta1().nombre_tabla()); //O(|t|)
     Tabla t2 = tablas.at(c.subconsulta1().subconsulta2().nombre_tabla()); //O(|t|)
+    linear_set<Valor> regMenos;//O(1)
+    Tabla tablaMas = t1;
+    Tabla tablaMenos=t2;
+    string claveMenos;
+    if (t1.registros().size() <= t2.registros().size()) {//O(1)
+        regMenos = t1.valores();//O(1)
+        claveMenos = t1.clave();//O(|c|)
+        tablaMas = t2;//O(1)
+        tablaMenos=t1;
+    } else {
+        regMenos = t2.valores();//O(1)
+        claveMenos = t2.clave();//O(|c|)
+        tablaMas = t1;//O(1)
+        tablaMenos=t2;
+    }
+    linear_set<Valor>::iterator it = regMenos.begin(); //O(1)?
+    while (it != regMenos.end()) {
+        Valor v1 = *it;
+        //Si el valor para la clave de la tabla tMin del registro r1 es igual al valor para la clave de la tabla tablaMas
+        if (tablaMas.esta(v1)) {
+            aDevolver.fast_insert(unirReg(tablaMenos[v1],tablaMas[v1]));
+        }
+    }
+}
+/*
+void Base_de_Datos::joinConClaves(Consulta &c, linear_set<Registro> &aDevolver) {
+    Tabla t1 = tablas.at(c.subconsulta1().subconsulta1().nombre_tabla()); //O(|t|)
+    Tabla t2 = tablas.at(c.subconsulta1().subconsulta2().nombre_tabla()); //O(|t|)
     linear_set<Registro> regMenos;//O(1)
     Tabla tablaMas = t1;
     string claveMenos;
@@ -72,6 +100,7 @@ void Base_de_Datos::joinConClaves(Consulta &c, linear_set<Registro> &aDevolver) 
         }
     }
 }
+*/
 
 
 //Como se escribia para devolver por referencia?

@@ -21,6 +21,15 @@ linear_set<Registro> &Tabla::registros() { //Const?
     return _registros;
 }
 
+linear_set<Valor> &Tabla::valores() { //Const?
+    return _claves;
+}
+
+bool Tabla::esta(const Valor &clave){
+    return _data.count(clave)==1;
+}
+
+
 void Tabla::insertar(Registro &r) {
     Valor clav = r[_clave];
     bool estaba = false;

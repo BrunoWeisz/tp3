@@ -23,6 +23,8 @@ public:
 
     Valor &clave();//O(|c|)
 
+    linear_set<Valor> &valores();
+
     linear_set<Registro> &registros();// Const? //O(1)
 
     void insertar(Registro &r); //O(n*(|c| + |v|))
@@ -30,6 +32,8 @@ public:
     void borrar(Valor v); //O(|v|) o bien O(n*(|v| + |c|))
 
     Registro &operator[](const Valor &clave); //O(|v|)
+
+    bool esta(const Valor &clave);
 
 
 };
