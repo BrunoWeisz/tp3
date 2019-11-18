@@ -17,6 +17,7 @@ class Base_de_Datos {
 private:
 
 string_map<Tabla> tablas;
+Registro unirReg(const Registro& r1,const Registro& r2);
 
 public:
 
