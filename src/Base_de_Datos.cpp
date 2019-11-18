@@ -51,57 +51,26 @@ void Base_de_Datos::select(Consulta &c, linear_set<Registro> &aDevolver) {
 void Base_de_Datos::joinConClaves(Consulta &c, linear_set<Registro> &aDevolver) {
     Tabla t1 = tablas.at(c.subconsulta1().subconsulta1().nombre_tabla()); //O(|t|)
     Tabla t2 = tablas.at(c.subconsulta1().subconsulta2().nombre_tabla()); //O(|t|)
-    linear_set<Valor> regMenos;//O(1)
-    Tabla tablaMas = t1;
-    Tabla tablaMenos=t2;
-    string claveMenos;
+    Tabla* tMenos; //O(1)
+    Tabla* tMas; //O(1)
     if (t1.registros().size() <= t2.registros().size()) {//O(1)
-        regMenos = t1.valores();//O(1)
-        claveMenos = t1.clave();//O(|c|)
-        tablaMas = t2;//O(1)
-        tablaMenos=t1;
+        tMenos=&t1; //O(1)
+        tMas=&t2; //O(1)
     } else {
-        regMenos = t2.valores();//O(1)
-        claveMenos = t2.clave();//O(|c|)
-        tablaMas = t1;//O(1)
-        tablaMenos=t2;
+        tMenos=&t2; //O(1)
+        tMas=&t1; //O(1)
     }
-    linear_set<Valor>::iterator it = regMenos.begin(); //O(1)?
-    while (it != regMenos.end()) {
+    linear_set<Valor>::iterator it = tMenos->valores().begin(); //O(1)?
+    while (it != tMenos->valores().end()) { // lo hace min(n1,n2) veces
         Valor v1 = *it;
         //Si el valor para la clave de la tabla tMin del registro r1 es igual al valor para la clave de la tabla tablaMas
-        if (tablaMas.esta(v1)) {
-            aDevolver.fast_insert(unirReg(tablaMenos[v1],tablaMas[v1]));
+        if (tMas->esta(v1)) { //O(|v|)
+            aDevolver.fast_insert(unirReg(tMenos->operator[](v1),tMas->operator[](v1))); // O(unirReg + agregarRegistroResultanteAConj)
+            //                                ^                ^                         osea, O(|v|+|c|)*k
+            //                                L O(|v|)         L O(|v|)
         }
     }
 }
-/*
-void Base_de_Datos::joinConClaves(Consulta &c, linear_set<Registro> &aDevolver) {
-    Tabla t1 = tablas.at(c.subconsulta1().subconsulta1().nombre_tabla()); //O(|t|)
-    Tabla t2 = tablas.at(c.subconsulta1().subconsulta2().nombre_tabla()); //O(|t|)
-    linear_set<Registro> regMenos;//O(1)
-    Tabla tablaMas = t1;
-    string claveMenos;
-    if (t1.registros().size() <= t2.registros().size()) {//O(1)
-        regMenos = t1.registros();//O(1)
-        claveMenos = t1.clave();//O(|c|)
-        tablaMas = t2;//O(1)
-    } else {
-        regMenos = t2.registros();//O(1)
-        claveMenos = t2.clave();//O(|c|)
-        tablaMas = t1;//O(1)
-    }
-    linear_set<Registro>::iterator it = regMenos.begin(); //O(1)?
-    while (it != regMenos.end()) {
-        Registro r1 = *it;
-        //Si el valor para la clave de la tabla tMin del registro r1 es igual al valor para la clave de la tabla tablaMas
-        if (r1[claveMenos] == tablaMas[r1[claveMenos]][tablaMas.clave()]) {
-            aDevolver.fast_insert(unirReg(r1, tablaMas[r1[claveMenos]]));
-        }
-    }
-}
-*/
-
 
 //Como se escribia para devolver por referencia?
 linear_set<Registro> Base_de_Datos::consultar(Consulta &c) {

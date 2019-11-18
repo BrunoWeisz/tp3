@@ -23,7 +23,7 @@ public:
 
     Valor &clave();//O(|c|)
 
-    linear_set<Valor> &valores();
+    linear_set<Valor> &valores(); //Const? // O(1)
 
     linear_set<Registro> &registros();// Const? //O(1)
 
@@ -33,7 +33,7 @@ public:
 
     Registro &operator[](const Valor &clave); //O(|v|)
 
-    bool esta(const Valor &clave);
+    bool esta(const Valor &clave); //O(|v|)
 
 
 };
