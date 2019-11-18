@@ -4,7 +4,7 @@
 
 #include "Base_de_Datos.h"
 
-//Como se escribia para devolver por referencia?
+//Como se escribia para devolver por referencia? -> tenes que poner un & despues del tipo de retorno, pero igual devuelve por copia
 linear_set<Registro> Base_de_Datos::consultar(Consulta &c) {
 
     //1 y 2)De complejidad
