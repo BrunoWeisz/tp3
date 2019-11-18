@@ -99,6 +99,12 @@ void Base_de_Datos::interFroms(Consulta &c, linear_set<Registro> &aDevolver) {
 
 void Base_de_Datos::interSelects(Consulta &c, linear_set<Registro> &aDevolver) {
     Tabla t= tablas[c.subconsulta1().subconsulta1().nombre_tabla()];
+    linear_set<Registro>::iterator it = t.registros().begin(); //O(1)?
+
+    while(it!=t.registros().end()){
+
+    }
+
 
 }
 
