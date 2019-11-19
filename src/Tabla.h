@@ -19,13 +19,13 @@ public:
 
     Tabla(linear_set<NombreCampo> &campos, NombreCampo &clave); //O(1)
 
-    linear_set<NombreCampo> &dar_campos();//const? //O(|c|)
+    linear_set<NombreCampo> &dar_campos();//const? //O(1) !!!!!!!!!!!!!!!!!!
 
-    Valor &clave();//O(|c|)
+    Valor &clave();//O(1)
 
     linear_set<Valor> &valores(); //Const? // O(1)
 
-    linear_set<Registro> &registros();// Const? //O(1)
+    linear_set<Registro> &registros();// Const? //O(1)  !!!!!!!!!!!!!!!!!!!11
 
     void insertar(Registro &r); //O(n*(|c| + |v|))
 

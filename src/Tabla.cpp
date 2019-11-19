@@ -33,13 +33,18 @@ bool Tabla::esta(const Valor &clave){
 void Tabla::insertar(Registro &r) {
     Valor clav = r[_clave];
     bool estaba = false;
-    for (Registro re : _registros) {
+
+    linear_set<Registro>::iterator itRegistros = _registros.begin();
+    while (itRegistros != _registros.end()){
+        Registro re = *itRegistros;
         if (re[_clave] == clav) {
             _registros.erase(re);
             estaba = true;
             break;
         }
+        ++itRegistros;
     }
+
     _registros.fast_insert(r);
     _data.insert(make_pair(clav, r));
     if (!estaba) {
