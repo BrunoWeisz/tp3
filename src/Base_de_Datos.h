@@ -27,6 +27,10 @@ void joinConClaves(Consulta &c, linear_set<Registro> &aDevolver);
 void interFroms(Consulta &c, linear_set<Registro> &aDevolver);
 void interSelects(Consulta &c, linear_set<Registro> &aDevolver);
 void select(Consulta &c, linear_set<Registro> &aDevolver);
+void match(Consulta &c, linear_set<Registro> &aDevolver);
+void proj(Consulta &c, linear_set<Registro> &aDevolver);
+
+
 
 };
 
