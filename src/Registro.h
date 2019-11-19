@@ -21,7 +21,6 @@ private:
     // COMPLETAR con la representación privada.
 
     //Esto seria mi idea, cualquier cosa comentenlo.
-
     vector<Valor> valores;
     string_map <int> dameCampos;
 

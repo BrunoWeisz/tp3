@@ -99,13 +99,20 @@ void Base_de_Datos::interFroms(Consulta &c, linear_set<Registro> &aDevolver) {
 
 void Base_de_Datos::interSelects(Consulta &c, linear_set<Registro> &aDevolver) {
     Tabla t= tablas[c.subconsulta1().subconsulta1().nombre_tabla()];
+    NombreCampo c1=c.subconsulta1().campo1();
+    NombreCampo c2=c.subconsulta2().campo1();
+    Valor v1=c.subconsulta1().valor();
+    Valor v2=c.subconsulta2().valor();
     linear_set<Registro>::iterator it = t.registros().begin(); //O(1)?
-
+    Registro r= *it;
+    int posCampo1=r.damePosicion(c1);
+    int posCampo2=r.damePosicion(c2);
     while(it!=t.registros().end()){
-
+        r=*it;
+        if(r.porNumero(posCampo1)==v1 && r.porNumero(posCampo2)==v2){
+            aDevolver.fast_insert(r);
+        }
     }
-
-
 }
 
 
@@ -128,7 +135,7 @@ linear_set<Registro> Base_de_Datos::consultar(Consulta &c) {
     }else if(c.tipo_consulta()==INTER && c.subconsulta1().tipo_consulta()==SELECT && c.subconsulta2().tipo_consulta()==SELECT
     && c.subconsulta1().subconsulta1().tipo_consulta()==FROM && c.subconsulta2().subconsulta1().tipo_consulta()==FROM
     && c.subconsulta1().subconsulta1().nombre_tabla()==c.subconsulta2().subconsulta1().nombre_tabla()){
-
+        interSelects(c,aDevolver);
     } else if (c.tipo_consulta() == FROM) {
         aDevolver = tablas.at(c.nombre_tabla()).registros();
     } else if (c.tipo_consulta() == SELECT) {
