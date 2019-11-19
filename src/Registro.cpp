@@ -4,6 +4,8 @@ Registro::Registro() {
     //COMPLETAR(Registro);
 }
 
+//averrrr
+
 set<NombreCampo> Registro::campos() const {
     //COMPLETAR(campos);
 }
