@@ -29,6 +29,12 @@ void interSelects(Consulta &c, linear_set<Registro> &aDevolver);
 void select(Consulta &c, linear_set<Registro> &aDevolver);
 void match(Consulta &c, linear_set<Registro> &aDevolver);
 void proj(Consulta &c, linear_set<Registro> &aDevolver);
+void rename(Consulta &c, linear_set<Registro> &aDevolver);
+void inter(Consulta &c, linear_set<Registro> &aDevolver);
+void Union(Consulta &c, linear_set<Registro> &aDevolver);
+
+
+
 
 
 
