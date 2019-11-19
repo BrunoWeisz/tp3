@@ -8,7 +8,6 @@ Registro::~Registro() {
     //COMPLETAR(Registro);
     for(int i=0;i<_ordenados.size();i++){
         _valorEnCampo.erase(_ordenados[i]->campo);
-        delete _ordenados[i];
     }
 }
 
@@ -24,20 +23,20 @@ Valor& Registro::operator[](const NombreCampo& campo) {
 
 void Registro:: definir(NombreCampo n, Valor v){
     _campos.insert(n);
-    tripla t=tripla(_ordenados.size(),n,v);
-    _ordenados.push_back(&t);
+    tripla t= tripla(_ordenados.size(),n,v);
     pair<string, tripla> entrada=make_pair(n,t);
     _valorEnCampo.insert(entrada);
+    _ordenados.push_back(&_valorEnCampo.at(n));
 
     int posicionArreglo=_ordenados.size()-1;
     int posicionCaracter=0;
 
-    while(posicionArreglo>0 && posicionCaracter<n.size() &&_ordenados[posicionArreglo-1]->campo.size()<posicionCaracter ){
+    while(posicionArreglo>0 && posicionCaracter<n.size() &&_ordenados[posicionArreglo-1]->campo.size()>posicionCaracter ){
         if(int(_ordenados[posicionArreglo-1]->campo[posicionCaracter])>=int(n[posicionCaracter])){
             _ordenados[posicionArreglo-1]->posicionEnArreglo++;
             _ordenados[posicionArreglo]->posicionEnArreglo--;
             swap(_ordenados[posicionArreglo-1],_ordenados[posicionArreglo]);
-            posicionArreglo++;
+            posicionArreglo--;
         }else{
             posicionCaracter++;
         }
