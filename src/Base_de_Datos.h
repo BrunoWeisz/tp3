@@ -18,10 +18,23 @@ private:
 
 string_map<Tabla> tablas;
 Registro unirReg(const Registro& r1,const Registro& r2);
-
+string_map<bool> nombres; // ConjTrie<nombre_Tabla> simulator.
 public:
 
-linear_set<Registro> consultar(Consulta &c);
+    Base_de_Datos(); // O(1)
+    void CrearTabla(linear_set<NombreCampo> &cc, linear_set<NombreCampo> &c, NombreTabla& n); //O(|t|+|c|)
+    void AgRegistro(NombreTabla &n, Registro &r);
+    string_map<bool>& Nombres(); //O(1) aliasing: res es modificable
+    Tabla& DevolverTabla(NombreTabla& n); //O(|n|)
+
+
+
+
+
+
+
+
+    linear_set<Registro> consultar(Consulta &c);
 void selectDeFrom(Consulta &c, linear_set<Registro> &aDevolver);
 void joinConClaves(Consulta &c, linear_set<Registro> &aDevolver);
 void interFroms(Consulta &c, linear_set<Registro> &aDevolver);
