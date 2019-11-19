@@ -17,7 +17,7 @@ class Base_de_Datos {
 private:
 
 string_map<Tabla> tablas;
-Registro unirReg(Registro& r1, Registro& r2);
+Registro unirReg(const Registro& r1,const Registro& r2);
 
 public:
 
@@ -32,8 +32,6 @@ void proj(Consulta &c, linear_set<Registro> &aDevolver);
 void rename(Consulta &c, linear_set<Registro> &aDevolver);
 void inter(Consulta &c, linear_set<Registro> &aDevolver);
 void Union(Consulta &c, linear_set<Registro> &aDevolver);
-void product(Consulta &c, linear_set<Registro> &aDevolver);
-
 
 
 

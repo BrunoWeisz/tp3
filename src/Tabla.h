@@ -23,9 +23,9 @@ public:
 
     Valor &clave();//O(1)
 
-    linear_set<Valor> &valores(); //Const? // O(1)
+    linear_set<Valor> &valores(); //Const? // O(1)      !!!!!!!!!!!!!!!!!!!
 
-    linear_set<Registro> &registros();// Const? //O(1)  !!!!!!!!!!!!!!!!!!!11
+    linear_set<Registro> &registros();// Const? //O(1)  !!!!!!!!!!!!!!!!!!!
 
     void insertar(Registro &r); //O(n*(|c| + |v|))
 
