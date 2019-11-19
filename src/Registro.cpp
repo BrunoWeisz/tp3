@@ -16,6 +16,19 @@ Valor &Registro::operator[](const NombreCampo &campo) {
     return _valorEnCampo.at(campo).valor;
 }
 
+const Valor &Registro::operator[](const NombreCampo &campo) const {
+    return _valorEnCampo.at(campo).valor;
+}
+
+
+void Registro::operator+(Registro &r) {
+    for (NombreCampo n: r.campos()) {
+        if (_campos.count(n) == 0) {
+            definir(n, r[n]);
+        }
+    }
+}
+
 void Registro::definir(NombreCampo n, Valor v) { //O(|c|+|v|)
     _campos.insert(n); //O(1)?
     tripla t = tripla(_ordenados.size(), n, v); //O(1+|c|+|v|)

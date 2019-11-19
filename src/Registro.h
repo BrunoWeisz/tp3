@@ -15,6 +15,8 @@ public:
     ~Registro();
     set<NombreCampo> campos() const;
     Valor& operator[](const NombreCampo& campo);
+    const Valor& operator[](const NombreCampo& campo) const;
+    void operator+( Registro &r);
     Valor& porNumero(const int a);
     void definir(NombreCampo n, Valor v);
     int damePosicion(const NombreCampo& campo);

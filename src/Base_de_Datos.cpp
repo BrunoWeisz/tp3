@@ -10,10 +10,10 @@
 
 
 //OJO NO ME ESTA DEJANDO AUMENTAR LOS ITERADORES
-Registro Base_de_Datos::unirReg(const Registro &r1, const Registro &r2) {
-    Registro Union;
-
-    return Union;
+Registro Base_de_Datos::unirReg( Registro &r1,  Registro &r2) {
+   //Aca no se si definirlos const, o que, asi que por las dudas hice esta funcion auxiliar;
+    r1+r2;
+    return r1;
 }
 
 
@@ -227,6 +227,9 @@ void Base_de_Datos::Union(Consulta &c, linear_set<Registro> &aDevolver) {
     }
 }
 
+void Base_de_Datos::product(Consulta &c, linear_set<Registro> &aDevolver) {
+
+}
 
 
 
@@ -268,6 +271,8 @@ linear_set<Registro> Base_de_Datos::consultar(Consulta &c) {
         inter(c,aDevolver);
     }else if(c.tipo_consulta()==UNION){
         Union(c,aDevolver);
+    }else if(c.tipo_consulta()==PRODUCT){
+
     }
 
 
