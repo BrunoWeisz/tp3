@@ -12,17 +12,29 @@ using namespace std;
 class Registro {
 public:
     Registro();
+    ~Registro();
     set<NombreCampo> campos() const;
     Valor& operator[](const NombreCampo& campo);
     Valor& porNumero(const int a);
+    void definir(NombreCampo n, Valor v);
     int damePosicion(const NombreCampo& campo);
 
 private:
     // COMPLETAR con la representación privada.
 
     //Esto seria mi idea, cualquier cosa comentenlo.
-    vector<Valor> valores;
-    string_map <int> dameCampos;
+    struct tripla {
+        int posicionEnArreglo;
+        NombreCampo campo;
+        Valor valor;
+        tripla(int pos, NombreCampo camp,Valor val) : posicionEnArreglo(pos), campo(camp), valor(val) {};
+    };
+
+    vector<tripla*> _ordenados;
+    string_map<tripla> _valorEnCampo;
+    set<NombreCampo> _campos;
+
+
 
 };
 
