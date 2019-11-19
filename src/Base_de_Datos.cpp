@@ -39,7 +39,7 @@ void Base_de_Datos::selectDeFrom(Consulta &c, linear_set<Registro> &aDevolver) {
             if (r.porNumero(posCampo) == valor) {//O(|v|),
                 aDevolver.fast_insert(r);
             }
-            //FALTA AUMENTAR ITERADOR
+            ++it;
         }
     }
 }
@@ -67,7 +67,7 @@ void Base_de_Datos::joinConClaves(Consulta &c, linear_set<Registro> &aDevolver) 
             //                                L O(|v|)         L O(|v|)
         }
 
-        //FALTA AUMENTAR ITERADOR
+        ++it;
     }
 }
 
@@ -91,7 +91,7 @@ void Base_de_Datos::interFroms(Consulta &c, linear_set<Registro> &aDevolver) {
             aDevolver.fast_insert(tMenos->operator[](v1));
         }
 
-        //FALTA AUMENTAR ITERADOR
+        ++it;
     }
 
 
@@ -114,7 +114,7 @@ void Base_de_Datos::interSelects(Consulta &c, linear_set<Registro> &aDevolver) {
             aDevolver.fast_insert(r);
         }
 
-        //FALTA AUMENTAR ITERADOR
+        ++it;
     }
 }
 
@@ -128,7 +128,7 @@ void Base_de_Datos::select(Consulta &c, linear_set<Registro> &aDevolver) { //O(|
         if (r.porNumero(campoPos) == c.valor()) {//O(|v|)
             aDevolver.fast_insert(r); //O(|v|+|c|)
         }
-        //FALTA AUMENTAR ITERADOR
+        ++it;
     }
 }
 
@@ -147,7 +147,7 @@ void Base_de_Datos::match(Consulta &c, linear_set<Registro> &aDevolver) {//O(|c|
             aDevolver.fast_insert(r); //O(|v|+|c|)
         }
 
-        //FALTA AUMENTAR ITERADOR
+        ++it;
     }
 }
 
@@ -167,9 +167,67 @@ void Base_de_Datos::proj(Consulta &c, linear_set<Registro> &aDevolver) {
         }
 
         aDevolver.fast_insert(aAgregar);
-        //FALTA AUMENTAR ITERADOR
+
+        ++it;
     }
 }
+
+void Base_de_Datos::rename(Consulta &c, linear_set<Registro> &aDevolver) {
+    linear_set<Registro> regSubCons = consultar(const_cast<Consulta &>(c.subconsulta1())); //No se que verga hice aca
+    linear_set<Registro>::iterator it = regSubCons.begin(); //O(1)?
+
+    Registro r=*it;
+
+    while(it!=regSubCons.end()){
+        r=*it;
+        Registro aAgregar=Registro();
+
+        for(NombreCampo n : r.campos()){
+            if(n==c.campo1()){
+                aAgregar.definir(c.campo1(),r.operator[](n));
+            }else{
+                aAgregar.definir(c.campo1(),r.operator[](n));
+            }
+        }
+        aDevolver.fast_insert(aAgregar);
+        ++it;
+    }
+}
+
+void Base_de_Datos::inter(Consulta &c, linear_set<Registro> &aDevolver) {
+    linear_set<Registro> regSubCons1 = consultar(const_cast<Consulta &>(c.subconsulta1())); //No se que verga hice aca
+    linear_set<Registro> regSubCons2 = consultar(const_cast<Consulta &>(c.subconsulta2())); //No se que verga hice aca
+    linear_set<Registro>::iterator fin = regSubCons1.end(); //O(1)?
+    linear_set<Registro>::iterator it = regSubCons1.begin(); //O(1)?
+    linear_set<Registro>* otro=&regSubCons2;
+    if(regSubCons1.size()>regSubCons2.size()){
+        it=regSubCons2.begin();
+        fin=regSubCons2.end();
+        otro=&regSubCons1;
+    }
+
+    while(it!=fin){
+        Registro r= *it;
+        if(otro->count(r)==1){
+            aDevolver.fast_insert(r);
+        }
+        ++it;
+    }
+}
+
+void Base_de_Datos::Union(Consulta &c, linear_set<Registro> &aDevolver) {
+    linear_set<Registro> regSubCons1 = consultar(const_cast<Consulta &>(c.subconsulta1())); //No se que verga hice aca
+    linear_set<Registro> regSubCons2 = consultar(const_cast<Consulta &>(c.subconsulta2())); //No se que verga hice aca
+    for(Registro r: regSubCons1){
+        aDevolver.fast_insert(r);
+    }
+
+    for(Registro r: regSubCons2){
+        aDevolver.insert(r);
+    }
+}
+
+
 
 
 //Como se escribia para devolver por referencia?
@@ -204,6 +262,12 @@ linear_set<Registro> Base_de_Datos::consultar(Consulta &c) {
         match(c,aDevolver);
     }else if(c.tipo_consulta()==PROJ){
         proj(c,aDevolver);
+    }else if(c.tipo_consulta()==RENAME){
+        rename(c,aDevolver);
+    }else if (c.tipo_consulta()==INTER){
+        inter(c,aDevolver);
+    }else if(c.tipo_consulta()==UNION){
+        Union(c,aDevolver);
     }
 
 
